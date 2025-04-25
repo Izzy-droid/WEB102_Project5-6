@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
 import './App.css'
+import {Routes, Route, Link} from 'react-router-dom'
+import More_info from './More_info'
+import Layout from './Layout';
 
 function App() {
     const [animals, setAnimals] = useState([]);
@@ -68,18 +71,9 @@ function App() {
   
     return ( 
         <>
-        <div className="cols-arrange">
-          <div className="left-col">
-            <div className="left-col-inner">
-                <p id="title"><a href="#"></a>PetCubby</p>
-                <p className="left-text">Home</p>  
-                <p className="left-text">About</p>
-                <p className="left-text">Search</p>
-            </div>
+        <Routes>
          
-          </div> 
-
-          <div className="other-col">
+          <Route path='/' element={<Layout>
             <div className="inner-box" id="top">
                 <div className="inner-inner">
                 <div className="first-d">Majority type: {majorityType}</div>
@@ -100,6 +94,7 @@ function App() {
 
             <div className="inner-box" id="list">
                 
+
                 <div className="inner-list">
                     <table id="table">
                          
@@ -108,7 +103,8 @@ function App() {
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Status</th>
-                                <th>Location(links)</th>
+                                <th>Links</th>
+                                <th>Location</th>
                             </tr>
                         </thead>
                        
@@ -118,6 +114,8 @@ function App() {
                         <td>{animal.name || "Unknown"}</td>
                         <td>{animal.type || "Unknown"}</td>
                         <td>{animal.status || "Unknown"}</td>
+                        <td><Link to={`/details/${animal.id}`}>🐱🐶</Link></td>
+                        
                         <td>
                         {animal.contact?.address?.city ? `${animal.contact.address.city}, ${animal.contact.address.state}`
                         : "Unknown Location"}
@@ -127,14 +125,23 @@ function App() {
         
                         </tbody>
                     </table>
+
+                    
                 </div>
             </div>
+           </Layout>}/>
+          <Route path='/details/:id' element={<Layout><More_info animals={animals}/></Layout>}/>
+          
+      </Routes>
+
+
+       
            
-          </div>
+
+   
 
 
 
-        </div>
         </>
     )
 }
